@@ -1,50 +1,48 @@
 {
-  "extends": [
-    "config:base",
-    "group:linters",
-    "helpers:pinGitHubActionDigests",
-    ":separateMultipleMajorReleases",
-    ":ignoreUnstable",
-    ":semanticCommits",
-    ":semanticPrefixFixDepsChoreOthers",
-    "regexManagers:githubActionsVersions",
-    ":preserveSemverRanges",
+  extends: [
+    'config:recommended',
+    'group:linters',
+    'helpers:pinGitHubActionDigests',
+    ':separateMultipleMajorReleases',
+    ':ignoreUnstable',
+    ':semanticCommits',
+    ':semanticPrefixFixDepsChoreOthers',
+    'regexManagers:githubActionsVersions',
+    ':preserveSemverRanges',
   ],
-
-  "dependencyDashboardTitle": "Renovate Dependency Dashboard",
-  "dependencyDashboardLabels": ["auto-update"],
-  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br>Renovate logs for debug [here](https://developer.mend.io/{{platform}}/{{repository}}).",
-  "minimumReleaseAge": "3 days",
-  "rollbackPrs": true,
-  "addLabels": [
-    "auto-update",
+  dependencyDashboardTitle: 'Renovate Dependency Dashboard',
+  dependencyDashboardLabels: [
+    'auto-update',
   ],
-  "configMigration": true,
-  "prCreation": "not-pending",
-
-  "terraform": {
-    "ignorePaths": [
-      "**/examples/**",
+  dependencyDashboardHeader: 'This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br>Renovate logs for debug [here](https://developer.mend.io/{{platform}}/{{repository}}).',
+  minimumReleaseAge: '3 days',
+  rollbackPrs: true,
+  addLabels: [
+    'auto-update',
+  ],
+  configMigration: true,
+  prCreation: 'not-pending',
+  terraform: {
+    ignorePaths: [
+      '**/examples/**',
     ],
-    "pinDigests": true,
+    pinDigests: true,
   },
-
-  "commitMessageLowerCase": "never",
-
-  "prHourlyLimit": 0,
-
-  "regexManagers": [
+  commitMessageLowerCase: 'never',
+  prHourlyLimit: 0,
+  customManagers: [
     {
-      "fileMatch": ["\\.tf$", "\\.hcl$"],
-      "matchStrings": [
-        // Examples:
-        // source = "tfr:///terraform-aws-modules/s3-bucket/aws//wrappers?version=1.0.0"
-        // source = "tfr:///terraform-aws-modules/s3-bucket/aws?version=2.0.0"
-        "source\\s*=\\s*\"tfr://(?<registryUrl>.*?)/(?<org>.+?)/(?<name>.+?)/(?<cloud>.+?)(?:/.+?)?\\?version=(?<currentValue>.*?)\""
+      customType: 'regex',
+      fileMatch: [
+        '\\.tf$',
+        '\\.hcl$',
       ],
-      "datasourceTemplate": "terraform-module",
-      "depNameTemplate": "{{org}}/{{name}}/{{cloud}}",
-      "packageNameTemplate": "{{org}}/{{name}}/{{cloud}}",
-    }
-  ]
+      matchStrings: [
+        'source\\s*=\\s*"tfr://(?<registryUrl>.*?)/(?<org>.+?)/(?<name>.+?)/(?<cloud>.+?)(?:/.+?)?\\?version=(?<currentValue>.*?)"',
+      ],
+      datasourceTemplate: 'terraform-module',
+      depNameTemplate: '{{org}}/{{name}}/{{cloud}}',
+      packageNameTemplate: '{{org}}/{{name}}/{{cloud}}',
+    },
+  ],
 }
